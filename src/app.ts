@@ -2,12 +2,12 @@ import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import { userRoutes } from './routes/user.route'
 import prismaPlugin from './plugins/prismaPlugin'
-import nodemailerPlugin from './plugins/nodemailerPlugin'
+//import nodemailerPlugin from './plugins/nodemailerPlugin'
 
 const server = Fastify()
 
 server.register(prismaPlugin)
-server.register(nodemailerPlugin)
+//server.register(nodemailerPlugin)
 server.register(userRoutes)
 
 
