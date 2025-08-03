@@ -64,18 +64,9 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
           data: {
             name,
             email,
+            telephone,
             password: hashedPassword, // In production: hash password before saving
-            wallet: {
-              create: {
-                balance: 10
-              }
-            },
-            xp: {
-              create: {
-                current: 10,
-                total: 10
-              }
-            }
+            provider,
           }
         });
 
