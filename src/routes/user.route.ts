@@ -40,7 +40,7 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
       const token = createSession(user.id, reply);
       // Retornar token no corpo da resposta
       return reply.status(200).send({ token });
-
+    
     } catch (err) {
       // Bloco catch vazio como no original
     }
@@ -70,16 +70,7 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
           }
         });
 
-        // ENVIAR E-MAIL VIA NODEMAILER
-        await fastify.mailer.sendMail({
-          from: '"Realms Under" <contato@realmsunder.space>',
-          to: email,
-          subject: 'Bem-vindo ao Realms!',
-          text: "Seja bem-vindo ao Realms. Recebemos seu cadastro e ele foi bem sucedido!",
-          html: "<h1>Bem-vindo!</h1><p>Seja muito bem-vindo a nossa plataforma Realms Under!</p>"
-        });
-        reply.send({ message: "E-mail enviado e usuário criado!" })
-
+       
         return user;
       })
     } catch (error) {
