@@ -1,14 +1,13 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyPluginOptions } from 'fastify';
+import fp from 'fastify-plugin';
 import websocketPlugin from '@fastify/websocket';
 import { RawData, WebSocket } from 'ws';
 
-// Tipo da mensagem recebida/enviada
 interface WebSocketMessage {
   event: string;
   data: any;
 }
 
-// Representação de uma conexão
 interface Connection {
   id: string;
   socket: WebSocket;
@@ -16,15 +15,14 @@ interface Connection {
 
 const connections: Connection[] = [];
 
-export function setupWebSocket(fastify: FastifyInstance) {
-  fastify.register(websocketPlugin);
+async function websocketHandler(fastify: FastifyInstance, options: FastifyPluginOptions) {
+  await fastify.register(websocketPlugin);
 
   fastify.get('/ws', { websocket: true }, (connection, req) => {
     const { socket } = connection;
     const id = generateId();
 
     console.log(`Client connected: ${id}`);
-
     connections.push({ id, socket });
 
     socket.on('message', (message: RawData) => {
@@ -48,6 +46,14 @@ export function setupWebSocket(fastify: FastifyInstance) {
   });
 }
 
+function generateId(): string {
+  return Math.random().toString(36).substring(2, 10);
+}
+
+// Exporta como plugin
+export default fp(websocketHandler);
+
+// Exporta funções auxiliares
 export function sendSolicitationDashboard(message: string, data: any) {
   broadcast({ event: message, data });
 }
@@ -63,8 +69,4 @@ function broadcast(payload: WebSocketMessage) {
       socket.send(json);
     }
   });
-}
-
-function generateId(): string {
-  return Math.random().toString(36).substring(2, 10);
 }
