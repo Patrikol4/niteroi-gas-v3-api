@@ -12,9 +12,9 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
 
   fastify.post('/api/login', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const { email, password } = request.body as any;
+      const { email, password, telephone } = request.body as any;
 
-      if (!email || !password) {
+      if (!email || !password || !telephone) {
         return reply.send({
           error: 'Email e senhas são necessários para o login'
         });
@@ -49,9 +49,9 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
   fastify.post('/api/register', async (request, reply) => {
 
     try {
-      const { name, email, password } = request.body as any
+      const { name, email, password, telephone } = request.body as any
 
-      if (!name || !email || !password) {
+      if (!name || !email || !password || !telephone) {
         return reply.status(400).send({
           error: 'Missing required fields'
         });
@@ -66,7 +66,7 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
             email,
             telephone,
             password: hashedPassword, // In production: hash password before saving
-            provider,
+            
           }
         });
 
