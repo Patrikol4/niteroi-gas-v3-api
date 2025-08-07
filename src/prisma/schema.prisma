@@ -14,8 +14,8 @@ enum CancelMessage {
 
 model User {
     id        String  @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
-    email     String
+    name      String  
+    email     String  @unique
     telephone String
     password  String
     provider  Boolean
@@ -25,7 +25,7 @@ model User {
     Entregas     Pedido[]      @relation("PedidosEntregador")
     Agendamentos Agendamento[]
 
-    pedidoId String? @db.ObjectId
+    //pedidoId String? @db.ObjectId
 
     @@map("users")
 }

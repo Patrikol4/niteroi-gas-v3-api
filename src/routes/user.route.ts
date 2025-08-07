@@ -12,9 +12,9 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
 
   fastify.post('/api/login', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const { email, password, telephone } = request.body as any;
+      const { email, password } = request.body as UserLogin
 
-      if (!email || !password || !telephone) {
+      if (!email || !password) {
         return reply.send({
           error: 'Email e senhas são necessários para o login'
         });
@@ -40,7 +40,7 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
       const token = createSession(user.id, reply);
       // Retornar token no corpo da resposta
       return reply.status(200).send({ token });
-    
+
     } catch (err) {
       // Bloco catch vazio como no original
     }
@@ -49,7 +49,7 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
   fastify.post('/api/register', async (request, reply) => {
 
     try {
-      const { name, email, password, telephone } = request.body as any
+      const { name, email, password, telephone } = request.body as UserCreate
 
       if (!name || !email || !password || !telephone) {
         return reply.status(400).send({
@@ -57,20 +57,30 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
         });
       }
 
+      const verifyMail = await fastify.prisma.user.findUnique({
+        where: { email }
+      })
+      if (verifyMail) {
+        return reply.status(400).send({
+          message: "Erro. o Email já existe"
+        })
+      }
+
       const hashedPassword = await hashPassword(password)
 
       const newUser = await fastify.prisma.$transaction(async (tx) => {
+
         const user = await tx.user.create({
           data: {
             name,
             email,
             telephone,
             password: hashedPassword, // In production: hash password before saving
-            
+            provider: false
           }
         });
 
-       
+
         return user;
       })
     } catch (error) {

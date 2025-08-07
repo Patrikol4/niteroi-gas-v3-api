@@ -11,6 +11,7 @@ export interface UserCreate {
     id: string,
     email: string,
     name: string,
+    telephone: string,
     password: string,
 }
 
