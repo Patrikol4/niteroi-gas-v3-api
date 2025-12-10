@@ -18,14 +18,14 @@ const prismaPlugin: FastifyPluginAsync = fp(async (server, opts) => {
         server.decorate('prisma', prisma)
         await server.prisma.$connect()
         console.log("Servidor está se conectando ao banco de dados do MongoDB..Aguarde")
-        const count = await prisma.user.count()
+        //const count = await prisma.user.count()
         console.log("Servidor conectado ao Prisma com sucesso")
-        console.log("Existem atualmente", count, "usuários registrados no sistema.")
+        //console.log("Existem atualmente", count, "usuários registrados no sistema.")
         server.addHook('onClose', async (server) => {
             await server.prisma.$disconnect()
         })
     } catch (error) {
-        console.error("Erro ao conectar o plugin do Prisma")
+        console.error(error, "Erro ao conectar o plugin do Prisma")
     }
 })
 

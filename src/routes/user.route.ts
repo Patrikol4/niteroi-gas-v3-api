@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, FastifyPluginOptions } from 'fastify';
 import { SignJWT, jwtVerify } from 'jose';
-import { comparePasswords, hashPassword } from '../utils/hash';
+import { comparePasswords, hashPassword } from '../utils/hash.ts';
 import 'dotenv/config'
 
 // ==========================================

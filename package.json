@@ -5,13 +5,16 @@
     "main": "app.ts",
     "type": "module",
     "scripts": {
-        "start": "node dist/app.js",
-        "dev": "ts-node src/app.ts"
+        "build": "prisma generate",
+        "start": "bun run ./src/app.ts",
+        "dev": "bun run ./src/app.ts"
+      
     },
     "author": "Patrikol4",
     "license": "MIT",
     "dependencies": {
         "@fastify/cookie": "^11.0.2",
+        "@fastify/cors": "^11.2.0",
         "@fastify/mongodb": "^9.0.2",
         "@fastify/multipart": "^9.3.0",
         "@fastify/websocket": "^11.2.0",
@@ -41,6 +44,9 @@
         "jsonwebtoken": "^9.0.2",
         "ts-node": "^10.9.2",
         "typescript": "^5.8.3"
+    },
+    "prisma": {
+        "schema": "src/prisma/schema.prisma"
     },
     "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
