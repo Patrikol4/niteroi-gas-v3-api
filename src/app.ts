@@ -1,15 +1,17 @@
 import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
 import { Server, IncomingMessage, ServerResponse } from 'http'
-import { userRoutes } from './routes/user.route'
-import { storeavailableRoutes } from './routes/storeavailable.route'
-import prismaPlugin from './plugins/prismaPlugin'
+import { userRoutes } from './routes/user.route.ts'
+import { storeavailableRoutes } from './routes/storeavailable.route.ts'
+import prismaPlugin from './plugins/prismaPlugin.ts'
+import fastifyMultipart from '@fastify/multipart'
 //import nodemailerPlugin from './plugins/nodemailerPlugin'
-import websocketPlugin from './services/socket'
+import websocketPlugin from './services/socket.ts'
 
 const server = Fastify()
 
 server.register(prismaPlugin)
 //server.register(nodemailerPlugin)
+server.register(fastifyMultipart)
 server.register(userRoutes)
 server.register(storeavailableRoutes)
 server.register(websocketPlugin)

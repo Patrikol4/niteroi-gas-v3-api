@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { prisma } from '../lib/prisma';
+import { prisma } from '../lib/prisma.ts';
 import { jwtVerify, SignJWT } from 'jose';
-import { FastifyCookie } from '@fastify/cookie'
+//import { FastifyCookie } from '@fastify/cookie'
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);

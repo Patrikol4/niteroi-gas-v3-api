@@ -1,7 +1,16 @@
 import { FastifyRequest, FastifyReply, FastifyInstance, FastifyPluginOptions } from 'fastify'
 import { comparePasswords, hashPassword } from '../utils/hash'
+import { pipeline } from 'node:stream/promises'
+import fs from 'node:fs'
 
 export async function produtoRoutes(fastify: FastifyInstance, opts: FastifyPluginOptions) {
+
+    fastify.post('/api/produto/:id/uploadimage', async (request: FastifyRequest, reply: FastifyReply) => {
+        const options = { limits: {fileSize: 1000}}
+        const data = await request.file(options)
+        await pipeline(data.file, fs.createWriteStream(data.filename))
+        reply.send({ message: "Imagem enviada com sucesso!"})
+    })
 
     fastify.post('/api/produto', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
