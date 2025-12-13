@@ -247,7 +247,7 @@ export async function userRoutes(fastify: FastifyInstance, opts: FastifyPluginOp
           id: true,
           name: true,
           email: true,
-          createdAt: true
+          //createdAt: true
           // Não retornar password!
         }
       });
